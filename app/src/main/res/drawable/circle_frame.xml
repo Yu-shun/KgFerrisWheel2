@@ -7,7 +7,7 @@
 
     <!--枠線-->
     <stroke
-        android:width="3dp"
+        android:width="6dp"
         android:color="#000000" />
 
     <!--余白-->
@@ -17,5 +17,5 @@
         android:bottom="7dp" />
 
     <!--角の丸み-->
-    <corners android:radius="200dp" />
+    <corners android:radius="500dp" />
 </shape>

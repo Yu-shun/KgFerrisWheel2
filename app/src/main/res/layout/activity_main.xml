@@ -6,48 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageButton
-        android:id="@+id/up_Button"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="50dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
+    <ImageView
+        android:id="@+id/radioView"
+        android:layout_width="550dp"
+        android:layout_height="245dp"
+        app:layout_constraintBottom_toTopOf="@+id/lineView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lineView"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up_button" />
+        app:srcCompat="@drawable/radio1" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="50.0"
+        android:text="50"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textSize="120sp"
-        app:layout_constraintEnd_toEndOf="@+id/up_Button"
-        app:layout_constraintStart_toStartOf="@+id/up_Button"
-        app:layout_constraintTop_toBottomOf="@+id/up_Button" />
-
-    <ImageButton
-        android:id="@+id/down_Button"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/down_button" />
+        android:textSize="160sp"
+        app:layout_constraintBottom_toTopOf="@+id/lineView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toEndOf="@+id/lineView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Hz"
         android:textColor="#2D2F31"
         android:textSize="60sp"
@@ -55,9 +40,34 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView" />
 
+    <ImageButton
+        android:id="@+id/up_Button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="@+id/radioView"
+        app:layout_constraintTop_toTopOf="@+id/radioView"
+        app:srcCompat="@drawable/up_button_1" />
+
+    <ImageButton
+        android:id="@+id/down_Button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/radioView"
+        app:layout_constraintEnd_toEndOf="@+id/up_Button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/up_Button"
+        app:srcCompat="@drawable/down_button_1" />
+
     <View
         android:id="@+id/lineView"
-        android:layout_width="5dp"
+        android:layout_width="10dp"
         android:layout_height="fill_parent"
         android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,8 +80,8 @@
     <View
         android:id="@+id/lineView1"
         android:layout_width="0dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="130dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="280dp"
         android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.893"
@@ -79,77 +89,43 @@
         app:layout_constraintTop_toTopOf="@+id/lineView" />
 
     <Button
-        android:id="@+id/button_a"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/circle_form1"
-        android:text="Button"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/lineView1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_b"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/circle_form2"
-        android:text="Button"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/button_a"
-        app:layout_constraintTop_toTopOf="@+id/button_a" />
-
-    <Button
-        android:id="@+id/button_c"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/circle_form3"
-        android:text="Button"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/button_b"
-        app:layout_constraintTop_toTopOf="@+id/button_b" />
-
-    <Button
         android:id="@+id/circle_Button"
-        android:layout_width="65dp"
-        android:layout_height="35dp"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
         android:text="rotation"
-        android:textSize="8sp"
+        android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lineView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/circle_backgraund"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
         android:background="@drawable/circle_frame"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lineView"
-        app:layout_constraintTop_toBottomOf="@+id/lineView1" />
+        app:layout_constraintEnd_toStartOf="@+id/lineView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/center_view"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/circle_form2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lineView"
-        app:layout_constraintTop_toBottomOf="@+id/lineView1" />
+        app:layout_constraintEnd_toStartOf="@+id/lineView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/rotation_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/rotation_frame"
         app:layout_constraintBottom_toBottomOf="@+id/center_view"
         app:layout_constraintCircle="@id/center_view"
         app:layout_constraintCircleAngle="180"
-        app:layout_constraintCircleRadius="80dp"
+        app:layout_constraintCircleRadius="247dp"
         app:layout_constraintEnd_toStartOf="@+id/center_view"
         app:layout_constraintTop_toTopOf="@+id/center_view" />
 
@@ -158,10 +134,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="null"
-        android:textSize="20sp"
+        android:textSize="35sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/circle_Button"
+        app:layout_constraintEnd_toEndOf="@+id/circle_Button"
+        app:layout_constraintStart_toStartOf="@+id/circle_Button" />
+
+    <Button
+        android:id="@+id/reset_button"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
+        android:text="reset"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/lineView" />
+
+    <TextView
+        android:id="@+id/standardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.2"
+        android:text="00"
+        android:textSize="160sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

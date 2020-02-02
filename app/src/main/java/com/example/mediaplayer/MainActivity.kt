@@ -14,19 +14,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    var num = 50.0
+    var num = 50
 
     val handler = Handler()
-    var timeValue = 60
+    var timeValue = 60 * 18
     val ms = "%02d:%02d"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val typeface = Typeface.createFromAsset(assets, "DJB_get_digital.ttf")
+        val typeface = Typeface.createFromAsset(assets, "DSEG7.ttf")
         textView.text = num.toString()
         textView.typeface = typeface
+        standardText.typeface = typeface
 
         val upButton = findViewById<ImageButton>(R.id.up_Button)
         upButton.setOnClickListener(this)
@@ -34,12 +35,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val downButton = findViewById<ImageButton>(R.id.down_Button)
         downButton.setOnClickListener(this)
 
-        timeText.text = ms.format(timeValue,0)
-        timeText.typeface = typeface
+        timeToText(timeValue)?.let {
+            timeText.text = it
+            timeText.typeface = typeface
+        }
+
+        reset_button.isEnabled = false
 
         val runnable = object : Runnable {
             override fun run() {
                 timeValue--
+                //.?⇒nullでなければ
                 timeToText(timeValue)?.let {
                     timeText.text = it
                     timeText.typeface = typeface
@@ -61,20 +67,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             rotationAnim.addUpdateListener { valueAnimator ->
                 //インスタンスが更新されるごとにrotationViewの角度を取得し，割り当て
                 val animatedValue = valueAnimator.animatedValue as Float
-                val layoutParams = rotationView.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.circleAngle = animatedValue
-                rotationView.layoutParams = layoutParams
+                val updatelayoutParams = rotationView.layoutParams as ConstraintLayout.LayoutParams
+                updatelayoutParams.circleAngle = animatedValue
+                rotationView.layoutParams = updatelayoutParams
 
                 //vavarious_crescentsも回転させることで，自然に違和感なく回転しているようにみえる
                 //(丸などの上下左右対称である場合は不要)
                 //various_crescents.rotation = (animatedValue % 360 - 270)
 
-                if (layoutParams.circleAngle == endAngle){
+                if (updatelayoutParams.circleAngle == endAngle){
                     handler.removeCallbacks(runnable)
+                    reset_button.isEnabled = true
                 }
             }
             //1回転の時間(60000:60秒)
-            rotationAnim.duration = 60000
+            rotationAnim.duration = 60000 * 18
             //LinearInterpolatorをセットすることでアニメーションの減速をなくす
             rotationAnim.interpolator = LinearInterpolator()
             rotationAnim.start()
@@ -83,23 +90,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             circleButton.isEnabled = false
         }
+
+        reset_button.setOnClickListener {
+            handler.removeCallbacks(runnable)
+            timeValue = 60 * 18
+            timeToText(timeValue)?.let {
+                timeText.text = it
+            }
+
+            circleButton.isEnabled = true
+            reset_button.isEnabled = false
+        }
     }
 
     override fun onClick(v: View?) {
-        val typeface = Typeface.createFromAsset(assets, "DJB_get_digital.ttf")
+        val typeface = Typeface.createFromAsset(assets, "DSEG7.ttf")
         when(v?.id){
             R.id.up_Button -> {
-                if (num<100){
-                    num += 0.1
+                if (num<99){
+                    num += 1
                 }
             }
             R.id.down_Button -> {
                 if (num>0){
-                    num -= 0.1
+                    num -= 1
                 }
             }
         }
-        textView.text = String.format("%.1f",num)
+        textView.text = "%02d".format(num)
         textView.typeface = typeface
     }
 
