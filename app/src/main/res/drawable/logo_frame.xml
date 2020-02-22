@@ -7,15 +7,15 @@
 
     <!--枠線-->
     <stroke
-        android:width="10dp"
-        android:color="#8BC34A" />
+        android:width="4dp"
+        android:color="#ff9800" />
 
     <!--余白-->
-    <padding android:left="7dp"
-        android:top="7dp"
-        android:right="7dp"
-        android:bottom="7dp" />
+    <padding android:left="5dp"
+        android:top="5dp"
+        android:right="5dp"
+        android:bottom="5dp" />
 
     <!--角の丸み-->
-    <corners android:radius="500dp" />
+    <corners android:radius="30dp" />
 </shape>
