@@ -3,11 +3,11 @@
     android:shape="rectangle">
 
     <!--背景色-->
-    <solid android:color="#00000000"/>
+    <solid android:color="#ff9800"/>
 
     <!--枠線-->
     <stroke
-        android:width="4dp"
+        android:width="6dp"
         android:color="#ff9800" />
 
     <!--余白-->

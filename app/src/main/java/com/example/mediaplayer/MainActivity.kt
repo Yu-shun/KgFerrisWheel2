@@ -20,18 +20,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var num = 50
 
     val handler = Handler()
-    var timeValue = 60
+    var timeValue = 60 * 18
     val ms = "%02d:%02d"
 
-    var key = 0
+    var half_key = 0
 
-    lateinit var music: MediaPlayer
+    var radioCheck = false
+    var halfCheck = false
+
+    lateinit var radioMusic: MediaPlayer
+    lateinit var halfMusic: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        music = MediaPlayer.create(this, R.raw.free_bgm)
+        radioMusic = MediaPlayer.create(this, R.raw.two_93hz)
+        halfMusic = MediaPlayer.create(this, R.raw.two_announcement)
 
         limit_view.rotation = 30f
 
@@ -45,7 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val downButton = findViewById<ImageButton>(R.id.down_Button)
         downButton.setOnClickListener(this)
 
-        val mediaButton = findViewById<ImageButton>(R.id.recButton)
+        val mediaButton = findViewById<View>(R.id.recView)
         mediaButton.setOnClickListener(this)
 
         val keyText = findViewById<TextView>(R.id.tapText)
@@ -81,9 +86,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val startAngle = layoutParams.circleAngle
         val endAngle = startAngle + 360
 
-//        System.out.println("startAngle****"+startAngle+"****")
-//        System.out.println("endAngle****"+endAngle+"****")
-
         //ValueAnimatorのインスタンスを作成
         val rotationAnim = ValueAnimator.ofFloat(startAngle, endAngle)
         rotationAnim.addUpdateListener { valueAnimator ->
@@ -97,46 +99,71 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             //(丸などの上下左右対称である場合は不要)
             //various_crescents.rotation = (animatedValue % 360 - 270)
 
-            System.out.println("*********"+updatelayoutParams.circleAngle)
+            //System.out.println("*********"+updatelayoutParams.circleAngle)
 
-            if (updatelayoutParams.circleAngle >= 480f && updatelayoutParams.circleAngle <= 539f){
+            if (timeValue == 60 * 9) {
+                if (radioCheck){
+                    radioMusic.stop()
+                    radioMusic = MediaPlayer.create(this, R.raw.two_93hz)
+                    halfMusic.start()
+                    halfCheck = true
+                }else if (!radioCheck){
+                    halfMusic.start()
+                }
+            }
+
+            if (updatelayoutParams.circleAngle > 361f && updatelayoutParams.circleAngle < 480f) {
+                if(!halfMusic.isPlaying && halfCheck && half_key == 0){
+                    radioMusic.start()
+                    radioMusic.isLooping = true
+                    half_key++
+                }
+            }
+
+
+            if (updatelayoutParams.circleAngle > 480f && updatelayoutParams.circleAngle <= 539f){
                 //view.visibility = View.VISIBLE
-                if(timeValue == 10){
+                if(timeValue == 3 * 60){
+                    radioMusic.stop()
                     finishText.alpha = 1.0f
                     view.alpha = 1.0f
                     val view_animation = AnimationUtils.loadAnimation(this, R.anim.view_fadein)
                     view.startAnimation(view_animation)
                     val text_animation = AnimationUtils.loadAnimation(this, R.anim.finishtext_fadein)
                     finishText.startAnimation(text_animation)
-                }else if(timeValue == 2){
-                    val text_animation = AnimationUtils.loadAnimation(this, R.anim.finishtext_fadeout)
-                    finishText.startAnimation(text_animation)
-                    val view_animation = AnimationUtils.loadAnimation(this, R.anim.view_fadeout)
-                    view.startAnimation(view_animation)
                 }
-                if(updatelayoutParams.circleAngle >= 500f){
+//                else if(timeValue == 2){
+//                    val text_animation = AnimationUtils.loadAnimation(this, R.anim.finishtext_fadeout)
+//                    finishText.startAnimation(text_animation)
+//                    val view_animation = AnimationUtils.loadAnimation(this, R.anim.view_fadeout)
+//                    view.startAnimation(view_animation)
+//                }
+
+                if(updatelayoutParams.circleAngle > 490f){
                     num = 50
                     foamText(num)
-                    music.release()
-
-                    originalText()
-
-                    if (up_Button.isEnabled == false){
-                        up_Button.isEnabled = true
-                        down_Button.isEnabled = true
-                        recButton.isEnabled = true
-                    }
+                    radioCheck = false
+                    halfCheck = false
+                    //originalText()
                 }
             }
 
             if (updatelayoutParams.circleAngle == endAngle){
+                val text_animation = AnimationUtils.loadAnimation(this, R.anim.finishtext_fadeout)
+                finishText.startAnimation(text_animation)
+                val view_animation = AnimationUtils.loadAnimation(this, R.anim.view_fadeout)
+                view.startAnimation(view_animation)
+
+                half_key = 0
+
                 layoutParams.circleAngle = layoutParams.circleAngle - 360
-                timeValue = 60
+                timeValue = 60 * 18
+                radioMusic = MediaPlayer.create(this, R.raw.two_93hz)
                 ferrisWheel(rotationView)
             }
         }
         //1回転の時間(60000:60秒)
-        rotationAnim.duration = 60000
+        rotationAnim.duration = 60000 * 18
         //LinearInterpolatorをセットすることでアニメーションの減速をなくす
         rotationAnim.interpolator = LinearInterpolator()
         rotationAnim.start()
@@ -154,51 +181,41 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     num -= 1
                 }
             }
-            R.id.recButton -> {
-                if (num == 40){
-                    music = MediaPlayer.create(this, R.raw.free_bgm)
-                    music.isLooping = true
-                    music.start()
-                    up_Button.isEnabled = false
-                    down_Button.isEnabled = false
-                    recButton.isEnabled = false
+            R.id.recView -> {
+                if (num == 93){
+                    if (!radioMusic.isPlaying){
+                        radioMusic.start()
+                        radioMusic.isLooping = true
+                    }
+                    radioCheck = true
                 }else{
-                    music.release()
+                    if (radioMusic.isPlaying){
+                        radioMusic.stop()//音楽を停止
+                        radioMusic = MediaPlayer.create(this, R.raw.two_93hz)
+                        radioCheck = false
+                    }
                 }
             }
-            R.id.tapText -> {
-                key++
-                if (key == 5){
-                    val animation = AnimationUtils.loadAnimation(this, R.anim.alpha_fadein)
-                    how_to_use.startAnimation(animation)
-                    nazoText1.startAnimation(animation)
-                    nazoText2.startAnimation(animation)
-                    nazoText3.startAnimation(animation)
-                    tapText.startAnimation(animation)
-                    nazoText3_1.startAnimation(animation)
-                    nazoText4.startAnimation(animation)
-                    nazoText5.startAnimation(animation)
-                    nazoText6.startAnimation(animation)
-
-                    how_to_use.text = "なぞ解明！"
-                    nazoText1.text = "1.いいいいいいいいいいいいい"
-                    nazoText2.text = "2.いいいいいいいいいいいいい"
-                    nazoText3.text = "3.いいいいいいい"
-                    tapText.text = "い"
-                    nazoText3_1.text = "いいいいい"
-                    nazoText4.text = "4.いいいいいいいいいいいいい"
-                    nazoText5.text = "5.いいいいいいいいいいいいい"
-                    nazoText6.text = "6.いいいいいいいいいいいいい"
-                }
-            }
+//            R.id.tapText -> {
+//                key++
+//                if (key == 5){
+//                    val animation = AnimationUtils.loadAnimation(this, R.anim.alpha_fadein)
+//                    nazoText3.startAnimation(animation)
+//                    tapText.startAnimation(animation)
+//                    nazoText3_1.startAnimation(animation)
+//                    nazoText4.startAnimation(animation)
+//                    nazoText5.startAnimation(animation)
+//
+//                    nazoText3.text = ""
+//                    tapText.text = ""
+//                    nazoText3_1.text = ""
+//                    nazoText4.text = "D1に規模3の敵がいます"
+//                    nazoText5.text = ""
+//                }
+//            }
         }
         foamText(num)
     }
-
-//    override fun onDestroy() {
-//        music.release()
-//        super.onDestroy()
-//    }
 
     fun foamText(num: Int){
         val typeface = Typeface.createFromAsset(assets, "DSEG7.ttf")
@@ -206,18 +223,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         textView.typeface = typeface
     }
 
-    fun originalText(){
-        key = 0
-        how_to_use.text = "観覧車での注意事項"
-        nazoText1.text = "1.あああああああああああああ"
-        nazoText2.text = "2.あああああああああああああ"
-        nazoText3.text = "3.あああああああ"
-        tapText.text = "あ"
-        nazoText3_1.text = "あああああ"
-        nazoText4.text = "4.あああああああああああああ"
-        nazoText5.text = "5.あああああああああああああ"
-        nazoText6.text = "6.あああああああああああああ"
-    }
+//    fun originalText(){
+//        key = 0
+//        nazoText3.text = "システム上の"
+//        tapText.text = "理由"
+//        nazoText3_1.text = "で、"
+//        nazoText4.text = "タブレットの画面以外は"
+//        nazoText5.text = "さわらないでください"
+//    }
 
     fun timeToText(time: Int = 0): String? {
         if (time <= 0) {
