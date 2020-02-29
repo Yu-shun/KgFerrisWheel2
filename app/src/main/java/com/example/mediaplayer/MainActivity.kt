@@ -56,10 +56,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val keyText = findViewById<TextView>(R.id.tapText)
         keyText.setOnClickListener(this)
 
-        timeToText(timeValue)?.let {
-            timeText.text = it
-            timeText.typeface = typeface
-        }
+//        timeToText(timeValue)?.let {
+//            timeText.text = it
+//            timeText.typeface = typeface
+//        }
 
         val rotationView = findViewById<View>(R.id.rotation_view)
 
@@ -69,10 +69,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             override fun run() {
                 timeValue--
                 //.?⇒nullでなければ
-                timeToText(timeValue)?.let {
-                    timeText.text = it
-                    timeText.typeface = typeface
-                }
+//                timeToText(timeValue)?.let {
+//                    timeText.text = it
+//                    timeText.typeface = typeface
+//                }
                 handler.postDelayed(this, 1000)
             }
         }
