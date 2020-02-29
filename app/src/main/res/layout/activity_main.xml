@@ -148,17 +148,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
+    <ImageView
         android:id="@+id/rotation_view"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:background="@drawable/rotation_frame"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:srcCompat="@drawable/gondola"
         app:layout_constraintBottom_toBottomOf="@+id/center_view"
         app:layout_constraintCircle="@id/center_view"
         app:layout_constraintCircleAngle="180"
         app:layout_constraintCircleRadius="296dp"
         app:layout_constraintEnd_toStartOf="@+id/center_view"
-        app:layout_constraintTop_toTopOf="@+id/center_view" />
+        app:layout_constraintTop_toTopOf="@+id/center_view"
+        tools:layout_editor_absoluteX="356dp"
+        tools:layout_editor_absoluteY="177dp" />
 
     <View
         android:id="@+id/time_limit_view"
